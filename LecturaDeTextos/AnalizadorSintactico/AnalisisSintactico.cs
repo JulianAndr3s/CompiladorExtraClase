@@ -64,7 +64,7 @@ namespace LecturaDeTextos.AnalizadorSintactico
 
             if ("WHERE".Equals(componenteLexico.Categoria) || "ORDER".Equals(componenteLexico.Categoria))
             {
-                Opcionales();
+               Opcionales();
             }
 
             depurarGramatica("Finalizando evaluación regla <Gramatica>");
@@ -329,10 +329,11 @@ namespace LecturaDeTextos.AnalizadorSintactico
                 componenteLexico = analisisLexico.analizar();
             }
             else {
-                //Error
-                String causa = "Se esperaba " + categoriaValida +"y recibí " + componenteLexico.Categoria;
+                //Errores SQL
+
+                String causa = "Se esperaba " + categoriaValida +" y recibí " + componenteLexico.Categoria;
                 String falla = "Problemas en la validacion de la gramatica que no la hace valida";
-                String solucion = "Asegure que se tenga " + categoriaValida + "en el lugar donde se ha presentado el problema";
+                String solucion = "Asegure que se tenga " + categoriaValida + " en el lugar donde se ha presentado el problema";
                 ManejadorErrores.obtenerManejadorErrores().agregarError(formarError(componenteLexico.Lexema,causa,falla,solucion));
                 
             }

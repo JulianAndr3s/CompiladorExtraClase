@@ -180,6 +180,7 @@ namespace LecturaDeTextos
             {
                 //ComponenteLexico tmp = analex.analizar();
                 analix.analizar();
+                dataGridView2.DataSource = ManejadorErrores.obtenerManejadorErrores().ObtenerTodo();
                 /**while (!"@EOF@".Equals(tmp.Lexema))
                 {
                     dataGridView1.Rows.Add();
@@ -193,11 +194,11 @@ namespace LecturaDeTextos
                     dataGridView1[6, fila].Value = tmp.tipo;
 
                     //dataGridView1.DataSource = TablaSimbolos.obtenerTablaSimbolos().ObtenerTodo();
-                    dataGridView2.DataSource = ManejadorErrores.obtenerManejadorErrores().ObtenerTodo();
+                    
 
                     tmp = analex.analizar();
                 }**/
-                
+
             }
             catch (Exception exp) {
                 MessageBox.Show(exp.Message);
