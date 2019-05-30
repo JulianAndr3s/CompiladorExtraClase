@@ -161,8 +161,17 @@ namespace LecturaDeTextos.AnalizadorSintactico
             {
                 pedirComponente("LITERAL");
             }
-            else {
+            else if ("NUMERO ENTERO".Equals(componenteLexico.Categoria) || "NUMERO DECIMAL".Equals(componenteLexico.Categoria))
+            {
                 Numero();
+            }
+            else {
+                String causa = "Se esperaba un CAMPO, LITERAL o NUMERO y recibi " + componenteLexico.Categoria;
+                String falla = "Problemas en la validación de la gramatica que no la hace valida.";
+                String solucion = "Asegure que se tenga un CAMPO, LITERAL o NUMERO en el lugar donde se ha presentado el error";
+                ManejadorErrores.obtenerManejadorErrores().agregarError(formarError(componenteLexico.Lexema, causa, falla, solucion));
+                throw new Exception("No es posible continuar con el análisis sintáctico. Verifique y solucione los errores presentados.");
+
             }
 
             depurarGramatica("Finalizando evaluación regla <Operando>");
@@ -214,6 +223,15 @@ namespace LecturaDeTextos.AnalizadorSintactico
             else if ("DIFERENTE QUE".Equals(componenteLexico.Categoria))
             {
                 pedirComponente("DIFERENTE QUE");
+            }
+            else
+            {
+                // Gestionar Error
+                String causa = "Se esperaba un operador y recibi " + componenteLexico.Categoria;
+                String falla = "Problemas en la validación de la gramatica que no la hace valida.";
+                String solucion = "Asegure que se tenga un operador en el lugar donde se ha presentado el error";
+                ManejadorErrores.obtenerManejadorErrores().agregarError(formarError(componenteLexico.Lexema, causa, falla, solucion));
+                throw new Exception("No es posible continuar con el análisis sintáctico. Verifique y solucione los errores presentados.");
             }
 
             depurarGramatica("Finalizando evaluación regla <Operador>");

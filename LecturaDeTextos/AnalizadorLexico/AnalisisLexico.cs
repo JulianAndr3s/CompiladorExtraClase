@@ -351,23 +351,53 @@ namespace LecturaDeTextos.AnalizadorLexico
                         break;
                     case 18:
                         leerSiguienteCaracter();
-                        if ("'".Equals(caracterActual)) {
+                        if ("@EOF@".Equals(caracterActual))
+                        {
+                            estadoActual = -1;
+                        }
+                        else if ("'".Equals(caracterActual)) {
                             lexema += caracterActual;
                             estadoActual = 20;
                         }
-                        else{
+                        else if ("@FL@".Equals(caracterActual))
+                        {
+                            cargarNuevaLinea();
+                        }
+                        else
+                        {
                             lexema += caracterActual;
                             estadoActual = 19; 
                         }                 
                         break;
+                    case -1:
+                        devolverPuntero();
+                        continuarAnalisis = false;
+                        Causa = "Se esperaba un LITERAL y recibió: " + lexema + "";
+                        Falla = " LITERAL mal formado. ";
+                        Solucion = "El LITERAL se forma con ' ' y adentro lleva Letras, Digitos o simbolos";
+
+                        ManejadorErrores.obtenerManejadorErrores().agregarError(formarError(lexema, Causa, Falla, Solucion));
+
+                        componenteLexico = ComponenteLexico.Crear(lexema + "'", "LITERAL", numeroLineaActual, puntero - lexema.Length, puntero - 1);
+                        componenteLexico.tipo = TipoComponenteLexico.DUMMY;
+                        TablaMaestro.obtenerTablaMaestro().agregarElemento(componenteLexico);
+                        break;
                     case 19:
                         leerSiguienteCaracter();
-                        if ("'".Equals(caracterActual))
+                        if ("@EOF@".Equals(caracterActual))
+                        {
+                            estadoActual = -1;
+                        }
+                        else if ("'".Equals(caracterActual))
                         {
                             lexema += caracterActual;
                             estadoActual = 20;
                         }
-                        else
+                        else if ("@FL@".Equals(caracterActual))
+                        {
+                            cargarNuevaLinea();
+                        }
+                        else 
                         {
                             lexema += caracterActual;
                             estadoActual = 19;
